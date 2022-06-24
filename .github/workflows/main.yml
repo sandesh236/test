@@ -27,7 +27,7 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           channel: 'stable'
-      - uses: dart-lang/setup-dart@2.17.*
+      - uses: dart-lang/setup-dart@2.17.x
 
       # Runs a single command using the runners shell
       - name: get flutter dependencies
