@@ -29,7 +29,7 @@ jobs:
       - name: get flutter dependencies
         run: flutter pub get
       - name: check for any formatting issus in the code
-        run: flutter format --set-buildexit-if-changed .
+        run: flutter format --set-exit-if-changed .
       - name: statically analyze the dart code for any errors
         run: flutter analyze .
       - name: buidl for the web
