@@ -1,10 +1,9 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Test CI
+name: Build and Deploy flutter web
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
+
   push:
     branches: [ "main" ]
   #pull_request:
@@ -33,8 +32,18 @@ jobs:
       - name: get flutter dependencies
         run: flutter pub get
       - name: check for any formatting issus in the code
-        run: flutter format --set-exit-if-changed .
+        run: flutter format --set-buiexit-if-changed .
       - name: statically analyze the dart code for any errors
         run: flutter analyze .
       - name: buidl for the web
         run: flutter build web
+      - name: Login to dockerhub
+      - uses: docker/login-action@v2
+        with:
+          username: ${{secrets.DOCKERHUB_USERNAME}}
+          password: ${{secrets.DOCKERHUB_tOKEN}}
+      - name: Build docker image and push to docker hub
+      - uses: docker/build-push-action@v3
+        with:
+          push: true
+          tags: sandesh236/test:latest

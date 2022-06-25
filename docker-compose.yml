@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  fromtend:
+    build: .
+    container_name: easy_sms
+    ports:
+      - "9000:80"
+    environment:
+      - API_DOMAIN=web
+      - API_PORTS=8000
+    depends_on:
+      - web
