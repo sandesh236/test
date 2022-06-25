@@ -20,6 +20,8 @@ jobs:
     steps:
 
       - uses: actions/checkout@v3
+      - run: |
+          git fetch --prune --unshallow
       - uses: subosito/flutter-action@v1
         with:
           channel: 'stable'
@@ -34,12 +36,20 @@ jobs:
         run: flutter analyze .
       - name: buidl for the web
         run: flutter build web
-      - uses: docker/login-action@v2
-        with:
-          username: ${{secrets.DOCKERHUB_USERNAME}}
-          password: ${{secrets.DOCKERHUB_tOKEN}}
+      - name: Deploy to server
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: ${{ secrets.TARGET }}
+          EXCLUDE: ${{ secrets.EXCLUDE}}
+#      - uses: docker/login-action@v2
+#        with:
+#          username: ${{secrets.DOCKERHUB_USERNAME}}
+#          password: ${{secrets.DOCKERHUB_tOKEN}}
 #      - name: Build docker image and push to docker hub
-      - uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: sandesh236/test:latest
+#      - uses: docker/build-push-action@v3
+#        with:
+#          push: true
+#          tags: sandesh236/test:latest
